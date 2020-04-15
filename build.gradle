@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+repositories {
+    mavenLocal()
+
+    maven {
+        url 'https://jitpack.io/'
+    }
+
+    mavenCentral()
+}
+
+shadowJar {
+    configurations = [project.configurations.compile]
+}
+
+dependencies {
+    compileOnly 'com.sobte.cqp:jcq-coolq:1.2.7'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    compile 'com.github.dnsjava:dnsjava:-SNAPSHOT'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+}
+
+group = 'org.sct.icestar'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+targetCompatibility = '8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.add('-Xlint:deprecation')
+    options.compilerArgs.add('-Xlint:unchecked')
+}
+
+task copyFile(type: Copy, dependsOn: shadowJar) {
+    from('build/libs/')
+    into('E:/CoolQ/data/app/com.sobte.cqp.jcq/app')
+    include('CoolQ*.jar')
+    rename {
+        "org.me.LovesAsuna.jar"
+    }
+}
