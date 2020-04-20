@@ -2,12 +2,15 @@ package org.me.LovesAsuna.listener;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.me.LovesAsuna.util.HTTPConnect;
 import org.me.LovesAsuna.Main;
 import org.me.LovesAsuna.util.Listener;
+import org.me.LovesAsuna.util.NetWorkUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class HitokotoListener implements Listener {
 
@@ -19,7 +22,8 @@ public class HitokotoListener implements Listener {
             ObjectMapper mapper = new ObjectMapper();
             /*如果不带参数,默认全部获取*/
             if (strings.length == 1) {
-                reader = HTTPConnect.connect("https://v1.hitokoto.cn/");
+                InputStream inputStream = NetWorkUtil.fetch("https://v1.hitokoto.cn/").getFirst();
+                reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                 String string = null;
                 String text = "";
                 while ((string = reader.readLine())!=null) {
@@ -45,7 +49,8 @@ public class HitokotoListener implements Listener {
                             "g\tOther – 其他\n" +
                             "不填 - 随机");
                 } else {
-                    reader = HTTPConnect.connect("https://v1.hitokoto.cn/?c=" + strings[1]);
+                    InputStream inputStream = NetWorkUtil.fetch("https://v1.hitokoto.cn/?c=" + strings[1]).getFirst();
+                    reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                     String string = null;
                     String text = "";
                     while ((string = reader.readLine())!=null) {

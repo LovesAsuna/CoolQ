@@ -14,13 +14,14 @@ repositories {
 }
 
 shadowJar {
-    configurations = [project.configurations.compile]
 }
+
+defaultTasks("copyFile")
 
 dependencies {
     compileOnly 'com.sobte.cqp:jcq-coolq:1.2.7'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
-    compile 'com.github.dnsjava:dnsjava:-SNAPSHOT'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    implementation 'com.github.dnsjava:dnsjava:-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 }

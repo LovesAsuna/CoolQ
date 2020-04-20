@@ -3,13 +3,15 @@ package org.me.LovesAsuna.listener;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.me.LovesAsuna.util.HTTPConnect;
 import org.me.LovesAsuna.Main;
 import org.me.LovesAsuna.util.BasicUtil;
 import org.me.LovesAsuna.util.Listener;
+import org.me.LovesAsuna.util.NetWorkUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +25,8 @@ public class BilibiliListener implements Listener {
 
         if (msg.toLowerCase().contains("av")) {
             av = String.valueOf(BasicUtil.ExtraceInt(msg));
-            reader = HTTPConnect.connect("https://api.bilibili.com/x/web-interface/view?aid=" + av);
+            InputStream inputStream = NetWorkUtil.fetch("https://api.bilibili.com/x/web-interface/view?aid=" + av).getFirst();
+            reader = new BufferedReader(new InputStreamReader(inputStream));
         } else if (msg.contains("BV")) {
             Matcher matcher = pattern.matcher(msg);
             if (matcher.find()) {
@@ -31,7 +34,8 @@ public class BilibiliListener implements Listener {
             } else {
                 return false;
             }
-            reader = HTTPConnect.connect("https://api.bilibili.com/x/web-interface/view?bvid=" + bv);
+            InputStream inputStream = NetWorkUtil.fetch("https://api.bilibili.com/x/web-interface/view?bvid=" + bv).getFirst();
+            reader = new BufferedReader(new InputStreamReader(inputStream));
         }
 
         if (reader == null) {
@@ -60,9 +64,30 @@ public class BilibiliListener implements Listener {
         String like = statObject.get("like").asText();
         String desc = dataObject.get("desc").asText();
 
-        Main.CQ.sendGroupMsg(fromGroup, title + "\nUP: " + UP + "(https://space.bilibili.com/" + uplink + ")\n分区: "
-                + zone + "\n播放量: " + view + " 弹幕: " + Barrage + " 评论: "
-                + reply + "\n收藏: " + fav + " 投币: " + coin + " 分享: " + share + " 点赞: " + like + "\n" + desc);
+        StringBuilder builder = new StringBuilder(title);
+        builder.append("\nUP: ")
+                .append(UP)
+                .append("(https://space.bilibili.com/")
+                .append(uplink)
+                .append(")\n分区: ")
+                .append(zone)
+                .append("\n播放量: ")
+                .append(view)
+                .append(" 弹幕: ")
+                .append(Barrage)
+                .append(" 评论: ")
+                .append(reply)
+                .append("\n收藏: ")
+                .append(fav)
+                .append(" 投币: ")
+                .append(coin)
+                .append(" 分享: ")
+                .append(share)
+                .append(" 点赞: ")
+                .append(like)
+                .append("\n")
+                .append(desc);
+        Main.CQ.sendGroupMsg(fromGroup, builder.toString());
         return true;
     }
 }

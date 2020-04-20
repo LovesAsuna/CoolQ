@@ -5,7 +5,6 @@ import com.sobte.cqp.jcq.event.JcqAppAbstract;
 import org.me.LovesAsuna.manager.ListenerManager;
 import org.me.LovesAsuna.util.XMLUtil;
 import org.me.LovesAsuna.data.BotData;
-import org.me.LovesAsuna.manager.FIleManager;
 
 import java.io.IOException;
 
@@ -113,13 +112,6 @@ public class Main extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
         /*注册监听器*/
         if (BotData.getListeners().size() == 0) {
             ListenerManager.registerListener();
-        }
-
-        /*创建目录*/
-        try {
-            FIleManager.createFolder();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return 0;

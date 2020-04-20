@@ -3,7 +3,7 @@ package org.me.LovesAsuna.util;
 import java.io.IOException;
 
 /**
- * @author icestar
+ * @author LovesAsuna
  */
 public interface Listener {
     /**

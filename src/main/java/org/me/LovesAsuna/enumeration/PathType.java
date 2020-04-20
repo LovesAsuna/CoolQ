@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.me.LovesAsuna.Main;
 
 /**
- * @author icestar
+ * @author LovesAsuna
  */
 
 public enum PathType {

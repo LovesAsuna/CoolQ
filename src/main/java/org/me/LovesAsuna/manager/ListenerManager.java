@@ -1,7 +1,7 @@
 package org.me.LovesAsuna.manager;
 
-import org.me.LovesAsuna.listener.*;
 import org.me.LovesAsuna.data.BotData;
+import org.me.LovesAsuna.listener.*;
 import org.me.LovesAsuna.util.Listener;
 
 import java.io.IOException;
@@ -9,9 +9,11 @@ import java.io.IOException;
 public class ListenerManager {
 
     public static void registerListener() {
-        Listener[] listeners = {new MuteListener(), new ShowDocListener(), new McQueryListener(),
-                new RunServerCommandListener(), new LinkListener(), new BilibiliListener(),
-                new HitokotoListener(), new DeBugListener(), new FunListener(), new DownloadImageListener()};
+        Listener[] listeners = {
+                new ShowDocListener(), new McQueryListener(),
+                new BilibiliListener(), new HitokotoListener(),
+                new DeBugListener(), new DownloadImageListener(),
+                new RainbowSixListener()};
         for (Listener listener : listeners) {
             BotData.getListeners().add(listener);
         }

@@ -4,7 +4,7 @@ import org.me.LovesAsuna.Main;
 import org.me.LovesAsuna.util.Listener;
 
 /**
- * @author icestar
+ * @author LovesAsuna
  */
 public class ShowDocListener implements Listener {
 
