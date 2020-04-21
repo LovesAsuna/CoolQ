@@ -1,2 +1,0 @@
-<!ELEMENT groups (group+)>
-<!ELEMENT group (#PCDATA)>

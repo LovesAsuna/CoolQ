@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,11 +23,11 @@ public class BilibiliListener implements Listener {
     public boolean execute(long fromGroup, long fromQQ, String msg) throws IOException {
         String av = null, bv = null;
         BufferedReader reader = null;
+        InputStream inputStream = null;
 
         if (msg.toLowerCase().contains("av")) {
             av = String.valueOf(BasicUtil.ExtraceInt(msg));
-            InputStream inputStream = NetWorkUtil.fetch("https://api.bilibili.com/x/web-interface/view?aid=" + av).getFirst();
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            inputStream = NetWorkUtil.fetch("https://api.bilibili.com/x/web-interface/view?aid=" + av).getFirst();
         } else if (msg.contains("BV")) {
             Matcher matcher = pattern.matcher(msg);
             if (matcher.find()) {
@@ -34,10 +35,12 @@ public class BilibiliListener implements Listener {
             } else {
                 return false;
             }
-            InputStream inputStream = NetWorkUtil.fetch("https://api.bilibili.com/x/web-interface/view?bvid=" + bv).getFirst();
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            inputStream = NetWorkUtil.fetch("https://api.bilibili.com/x/web-interface/view?bvid=" + bv).getFirst();
+        } else {
+            return false;
         }
 
+        reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         if (reader == null) {
             return false;
         }

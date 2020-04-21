@@ -3,7 +3,6 @@ package org.me.LovesAsuna;
 import com.sobte.cqp.jcq.entity.*;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
 import org.me.LovesAsuna.manager.ListenerManager;
-import org.me.LovesAsuna.util.XMLUtil;
 import org.me.LovesAsuna.data.BotData;
 
 import java.io.IOException;
@@ -106,8 +105,6 @@ public class Main extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
     public int enable() {
         enable = true;
         BotData.setFilePath(this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile().replaceFirst("/", ""));
-        /*创建插件配置*/
-        XMLUtil.read();
 
         /*注册监听器*/
         if (BotData.getListeners().size() == 0) {
